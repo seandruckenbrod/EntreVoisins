@@ -19,29 +19,28 @@ import butterknife.ButterKnife;
 public class NeighbourDetailsActivity extends AppCompatActivity {
 
 
-    @BindView(R.id.toolbar)
-    public android.support.v7.widget.Toolbar mToolbar;
-
     @BindView(R.id.back_btn)
-    public ImageButton mToolbarButton;
+    public ImageButton mButtonToolbar;
 
     @BindView(R.id.neighbour_picture_img)
     public ImageView mNeighbourAvatar;
 
     @BindView(R.id.Neighbour_name_txt)
-    public TextView mToolbarTextView;
-
-    @BindView(R.id.infos_card_name_txt)
-    public TextView mInfosCardName;
+    public TextView mTextViewToolbar;
 
     @BindView(R.id.add_favorite_button_btn)
     public android.support.design.widget.FloatingActionButton mFavStar;
 
     @BindDrawable(R.drawable.ic_star_border_white_24dp)
-    public Drawable mStarWhiteOutlined;
+    public Drawable mStarBorder;
 
     @BindDrawable(R.drawable.ic_star_yellow_24dp)
     public Drawable mStarYellow;
+
+    @BindView(R.id.infos_card_name_txt)
+    public TextView mInfosCardName;
+
+
 
     private NeighbourApiService mApiService;
     private Neighbour mNeighbour;
@@ -56,8 +55,8 @@ public class NeighbourDetailsActivity extends AppCompatActivity {
 
         mApiService = DI.getNeighbourApiService();
         getNeighbour();
-        writeNeighbourInfo();
-        FavoriteStar();
+        loadInfoNeighbour();
+        favoriteStar();
     }
 
     private void getNeighbour() {
@@ -66,25 +65,25 @@ public class NeighbourDetailsActivity extends AppCompatActivity {
 
 
 
-    private void writeNeighbourInfo() {
+    private void loadInfoNeighbour() {
         Glide.with(this).load(mNeighbour.getAvatarUrl()).into(mNeighbourAvatar);
-        mToolbarTextView.setText(mNeighbour.getName());
+        mTextViewToolbar.setText(mNeighbour.getName());
         mInfosCardName.setText(mNeighbour.getName());
-        mToolbarButton.setOnClickListener(v -> finish());
+        mButtonToolbar.setOnClickListener(v -> finish());
     }
 
 
-    private void FavoriteStar() {
+    private void favoriteStar() {
         if (mNeighbour.isFavorite() == true) {
             mFavStar.setImageDrawable(mStarYellow);
         } else {
-            mFavStar.setImageDrawable(mStarWhiteOutlined);
+            mFavStar.setImageDrawable(mStarBorder);
         }
 
             mFavStar.setOnClickListener(v -> {
                 mApiService.toggleFavorite(mNeighbour);
                 mNeighbour.setFavorite(!mNeighbour.isFavorite());
-            FavoriteStar();
+            favoriteStar();
             });
     }
 }

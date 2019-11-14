@@ -1,7 +1,9 @@
-package com.openclassrooms.entrevoisins.service;
+package com.openclassrooms.entrevoisins;
 
 import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.model.Neighbour;
+import com.openclassrooms.entrevoisins.service.DummyNeighbourGenerator;
+import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Before;
@@ -13,7 +15,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Unit test on Neighbour service
@@ -32,8 +33,8 @@ public class NeighbourServiceTest {
     public void getNeighboursWithSuccess() {
         List<Neighbour> neighbours = service.getNeighbours();
         List<Neighbour> expectedNeighbours = DummyNeighbourGenerator.DUMMY_NEIGHBOURS;
-    assertThat(neighbours, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedNeighbours.toArray()));
-}
+        assertThat(neighbours, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedNeighbours.toArray()));
+    }
 
     @Test
     public void deleteNeighbourWithSuccess() {
@@ -41,15 +42,4 @@ public class NeighbourServiceTest {
         service.deleteNeighbour(neighbourToDelete);
         assertFalse(service.getNeighbours().contains(neighbourToDelete));
     }
-
-    @Test
-    public void toggleFavoriteWithSuccess() {
-        Neighbour neighbour = service.getNeighbours().get(0);
-        assertFalse(service.getNeighbours().get(0).isFavorite());
-        service.toggleFavorite(neighbour);
-        assertTrue(service.getNeighbours().get(0).isFavorite());
-        service.toggleFavorite(neighbour);
-        assertFalse(service.getNeighbours().get(0).isFavorite());
-    }
-
 }
