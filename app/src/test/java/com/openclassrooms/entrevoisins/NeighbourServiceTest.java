@@ -13,6 +13,7 @@ import org.junit.runners.JUnit4;
 
 import java.util.List;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 
@@ -42,4 +43,16 @@ public class NeighbourServiceTest {
         service.deleteNeighbour(neighbourToDelete);
         assertFalse(service.getNeighbours().contains(neighbourToDelete));
     }
+
+
+    @Test
+    public void toggleFavoriteWithSuccess() {
+        Neighbour neighbour = service.getNeighbours().get(0); // First neighbour Favorite Status is false
+        assertFalse(service.getNeighbours().get(0).isFavorite());    // Correct, it is false
+        service.toggleFavorite(neighbour);                                  // Change Favorite Status
+        assertTrue(service.getNeighbours().get(0).isFavorite());     // Correct, it is true
+        service.toggleFavorite(neighbour);                                  // Change Favorite Status
+        assertFalse(service.getNeighbours().get(0).isFavorite());    // Correct, it is false
+    }
+
 }

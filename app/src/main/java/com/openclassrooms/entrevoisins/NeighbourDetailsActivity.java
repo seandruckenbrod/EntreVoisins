@@ -41,7 +41,6 @@ public class NeighbourDetailsActivity extends AppCompatActivity {
     public TextView mInfosCardName;
 
 
-
     private NeighbourApiService mApiService;
     private Neighbour mNeighbour;
 
@@ -64,7 +63,6 @@ public class NeighbourDetailsActivity extends AppCompatActivity {
     }
 
 
-
     private void loadInfoNeighbour() {
         Glide.with(this).load(mNeighbour.getAvatarUrl()).into(mNeighbourAvatar);
         mTextViewToolbar.setText(mNeighbour.getName());
@@ -74,16 +72,16 @@ public class NeighbourDetailsActivity extends AppCompatActivity {
 
 
     private void favoriteStar() {
-        if (mNeighbour.isFavorite() == true) {
+        if (mNeighbour.isFavorite()) {
             mFavStar.setImageDrawable(mStarYellow);
         } else {
             mFavStar.setImageDrawable(mStarBorder);
         }
 
-            mFavStar.setOnClickListener(v -> {
-                mApiService.toggleFavorite(mNeighbour);
-                mNeighbour.setFavorite(!mNeighbour.isFavorite());
+        mFavStar.setOnClickListener(v -> {
+            mApiService.toggleFavorite(mNeighbour);
+            mNeighbour.setFavorite(!mNeighbour.isFavorite());
             favoriteStar();
-            });
+        });
     }
 }

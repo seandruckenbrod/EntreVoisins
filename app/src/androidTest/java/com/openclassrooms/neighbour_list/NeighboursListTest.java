@@ -23,11 +23,31 @@ import static com.openclassrooms.utils.RecyclerViewItemCountAssertion.withItemCo
 import static org.hamcrest.core.IsNull.notNullValue;
 
 
+
+
+import android.support.test.filters.LargeTest;
+import com.openclassrooms.entrevoisins.service.NeighbourApiService;
+
+
+
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
+
+
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
+
+
 /**
  * Test class for list of neighbours
  */
 @RunWith(AndroidJUnit4.class)
 public class NeighboursListTest {
+
+    private NeighbourApiService mService;
+    private static int neighbourIndex = 2;
 
     // This is fixed
     private static int ITEMS_COUNT = 12;
@@ -65,6 +85,7 @@ public class NeighboursListTest {
         onView(ViewMatchers.withId(R.id.list_neighbours))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1, new DeleteViewAction()));
         // Then : the number of element is 11
-        onView(ViewMatchers.withId(R.id.list_neighbours)).check(withItemCount(ITEMS_COUNT-1));
+        onView(ViewMatchers.withId(R.id.list_neighbours)).check(withItemCount(ITEMS_COUNT - 1));
     }
+
 }
