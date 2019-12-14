@@ -2,43 +2,39 @@
 package com.openclassrooms.neighbour_list;
 
 import android.support.test.espresso.contrib.RecyclerViewActions;
-import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+
 import com.openclassrooms.entrevoisins.R;
+import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 import com.openclassrooms.entrevoisins.ui.neighbour_list.ListNeighbourActivity;
 import com.openclassrooms.utils.DeleteViewAction;
+
+
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+
+
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
+import static android.support.test.espresso.contrib.ViewPagerActions.scrollRight;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.hasMinimumChildCount;
-import static com.openclassrooms.utils.RecyclerViewItemCountAssertion.withItemCount;
-import static org.hamcrest.core.IsNull.notNullValue;
-
-
-
-
-import android.support.test.filters.LargeTest;
-import com.openclassrooms.entrevoisins.service.NeighbourApiService;
-
-
-
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
-
-
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.allOf;
-
+import static com.openclassrooms.utils.RecyclerViewItemCountAssertion.withItemCount;
+import static org.hamcrest.core.IsNull.notNullValue;
+import static org.hamcrest.core.AllOf.allOf;
 
 /**
  * Test class for list of neighbours
@@ -46,11 +42,10 @@ import static org.hamcrest.Matchers.allOf;
 @RunWith(AndroidJUnit4.class)
 public class NeighboursListTest {
 
-    private NeighbourApiService mService;
-    private static int neighbourIndex = 2;
-
     // This is fixed
     private static int ITEMS_COUNT = 12;
+    private static int neighbourIndex = 2;
+    private NeighbourApiService mService;
 
     private ListNeighbourActivity mActivity;
 
@@ -64,28 +59,85 @@ public class NeighboursListTest {
         assertThat(mActivity, notNullValue());
     }
 
-    /**
-     * We ensure that our recyclerview is displaying at least on item
-     */
+    // 1. at launch the list contains at least one neighbour
     @Test
     public void myNeighboursList_shouldNotBeEmpty() {
+
+        // TODO : Error: "android.support.test.espresso.AmbiguousViewMatcherException"
         // First scroll to the position that needs to be matched and click on it.
-        onView(ViewMatchers.withId(R.id.list_neighbours))
+        onView(allOf(withId(R.id.list_neighbours), isDisplayed()))
                 .check(matches(hasMinimumChildCount(1)));
     }
 
-    /**
-     * When we delete an item, the item is no more shown
-     */
+
+    // 2. to click on the delete button there is a neighbour less
     @Test
     public void myNeighboursList_deleteAction_shouldRemoveItem() {
-        // Given : We remove the element at position 2
-        onView(ViewMatchers.withId(R.id.list_neighbours)).check(withItemCount(ITEMS_COUNT));
-        // When perform a click on a delete icon
-        onView(ViewMatchers.withId(R.id.list_neighbours))
+
+        // TODO : Error: "android.support.test.espresso.AmbiguousViewMatcherException"
+
+        // Given : The initial size of the list is 12
+        onView(allOf(withId(R.id.list_neighbours), isDisplayed())).check(withItemCount(ITEMS_COUNT));
+        // When performing a click on a delete icon
+        onView(allOf(withId(R.id.list_neighbours), isDisplayed()))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1, new DeleteViewAction()));
-        // Then : the number of element is 11
-        onView(ViewMatchers.withId(R.id.list_neighbours)).check(withItemCount(ITEMS_COUNT - 1));
+        // Then : The number of elements is 11
+        onView(allOf(withId(R.id.list_neighbours), isDisplayed())).check(withItemCount(ITEMS_COUNT-1));
+
     }
 
-}
+
+    // 3. Neighbour detail activity page displayed on click of a neighbour/favorite list
+    @Test
+    public void neighbour_details_activity_page_isDisplayed() {
+// click on first displayed neighbour on the list
+        onView(allOf(withId(R.id.list_neighbours), isDisplayed()))
+                .perform(actionOnItemAtPosition(1, click()));
+// check if detail layout is shown
+        onView(withId(R.id.detailGlobalLayout))
+                .check(matches(isDisplayed()));
+    }
+
+
+    // 4.  Neighbour name is displayed on his/her detail activity page
+    @Test
+    public void neighbour_details_activity_name_isDisplayed() {
+
+// click on second displayed neighbour on the list
+        onView(allOf(withId(R.id.list_neighbours), isDisplayed()))
+                .perform(actionOnItemAtPosition(1, click()));
+// check if detail layout is shown
+        onView(withId(R.id.detailGlobalLayout))
+                .check(matches(isDisplayed()));
+
+        onView(withId(R.id.Neighbour_name_txt)).check(matches((withText("Jack"))));
+    }
+
+
+    // 5.Favorites tab only shows favorite neighbors
+    @Test
+    public void favorites_tab_only_shows_favorite_neighbors() {
+
+
+        // click on second displayed neighbour on the list
+        onView(allOf(withId(R.id.list_neighbours), isDisplayed()))
+                .perform(actionOnItemAtPosition(neighbourIndex, click()));
+
+        // click on the favorite icon
+        onView(allOf(withId(R.id.activity_neighbour_details_infos), isDisplayed()));
+        onView(withId(R.id.add_favorite_button_btn)).perform(click());
+
+        //back to the list of neighbour
+        pressBack();
+
+        //toggle on favorite tab
+        onView(allOf(withId(R.id.list_neighbours), isDisplayed()));
+        onView(withId(R.id.container)).perform(scrollRight());
+
+        onView(withId(R.id.list_neighbours)),
+                withParent(withId(R.id.container))
+                        .check(withItemCount(1));
+
+    }
+
+  }

@@ -3,6 +3,8 @@ package com.openclassrooms.entrevoisins.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.openclassrooms.entrevoisins.service.DummyNeighbourGenerator;
+
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
@@ -37,11 +39,8 @@ public class Neighbour implements Parcelable {
         this.id = id;
         this.name = name;
         this.avatarUrl = avatarUrl;
-
-
         this.isFavorite = isFavorite;
     }
-
 
 
     public Integer getId() {
@@ -65,11 +64,17 @@ public class Neighbour implements Parcelable {
     public boolean isFavorite() {
         return isFavorite;
     }
+
     public void setFavorite(boolean favorite) {
         this.isFavorite = favorite;
     }
 
-    //-----------------------------a completer ----------------------------------------//
+
+    public static Neighbour random() {
+        return DummyNeighbourGenerator.DUMMY_NEIGHBOURS_ADD.get(new Random().nextInt(DummyNeighbourGenerator.DUMMY_NEIGHBOURS_ADD.size()));
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -84,12 +89,11 @@ public class Neighbour implements Parcelable {
     }
 
 
-
-
     public static final Parcelable.Creator<Neighbour> CREATOR = new Parcelable.Creator<Neighbour>() {
         public Neighbour createFromParcel(Parcel in) {
             return new Neighbour(in);
         }
+
         public Neighbour[] newArray(int size) {
             return new Neighbour[size];
         }
@@ -102,6 +106,7 @@ public class Neighbour implements Parcelable {
         avatarUrl = in.readString();
 
     }
+
     @Override
     public int describeContents() {
         return 0;

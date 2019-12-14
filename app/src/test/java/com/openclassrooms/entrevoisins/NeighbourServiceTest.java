@@ -51,8 +51,6 @@ public class NeighbourServiceTest {
         assertFalse(service.getNeighbours().get(0).isFavorite());    // Correct, it is false
         service.toggleFavorite(neighbour);                                  // Change Favorite Status
         assertTrue(service.getNeighbours().get(0).isFavorite());     // Correct, it is true
-        service.toggleFavorite(neighbour);                                  // Change Favorite Status
-        assertFalse(service.getNeighbours().get(0).isFavorite());    // Correct, it is false
     }
 
 }

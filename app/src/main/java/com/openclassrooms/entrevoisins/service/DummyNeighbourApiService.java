@@ -33,6 +33,7 @@ public class DummyNeighbourApiService implements NeighbourApiService {
         neighbours.remove(neighbour);
     }
 
+
     @Override
     public void toggleFavorite(Neighbour neighbour) {
         Neighbour n = neighbours.get(neighbours.indexOf(neighbour));

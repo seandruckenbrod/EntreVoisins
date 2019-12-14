@@ -28,4 +28,14 @@ public abstract class DummyNeighbourGenerator {
 
     }
 
+    public static List<Neighbour> DUMMY_NEIGHBOURS_ADD = Arrays.asList(
+            new Neighbour(13, "Farah", "https://i.pravatar.cc/150?u=a042581f4e290269804c", false),
+            new Neighbour(14, "Fabien", "https://i.pravatar.cc/150?u=a042581f4e297899804dd", false),
+            new Neighbour(15, "Anas", "https://i.pravatar.cc/150?u=a042581f4e297899804dr", false),
+            new Neighbour(16, "Lyam", "https://i.pravatar.cc/150?u=a042581f4e297899804dg", false),
+            new Neighbour(17, "Lionel", "https://i.pravatar.cc/150?u=a042581ffhh2978h77804dg", false)
+
+
+    );
+
 }
