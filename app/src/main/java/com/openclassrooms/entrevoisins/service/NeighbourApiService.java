@@ -17,6 +17,10 @@ public interface NeighbourApiService {
      */
     List<Neighbour> getNeighbours();
 
+    /**
+     * Filters neighbours
+     *
+     */
     List<Neighbour> getFavorites();
 
     /**
@@ -32,5 +36,6 @@ public interface NeighbourApiService {
      * @param neighbour
      */
     void toggleFavorite(Neighbour neighbour);
+
 }
 

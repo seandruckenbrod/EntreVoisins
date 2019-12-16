@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 
+import static com.openclassrooms.entrevoisins.service.DummyNeighbourGenerator.DUMMY_NEIGHBOURS_ADD;
+
 /**
  * Model object representing a Neighbour
  */
@@ -67,11 +69,6 @@ public class Neighbour implements Parcelable {
 
     public void setFavorite(boolean favorite) {
         this.isFavorite = favorite;
-    }
-
-
-    public static Neighbour random() {
-        return DummyNeighbourGenerator.DUMMY_NEIGHBOURS_ADD.get(new Random().nextInt(DummyNeighbourGenerator.DUMMY_NEIGHBOURS_ADD.size()));
     }
 
 

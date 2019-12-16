@@ -4,6 +4,7 @@ package com.openclassrooms.neighbour_list;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.View;
 
 
 import com.openclassrooms.entrevoisins.R;
@@ -12,12 +13,12 @@ import com.openclassrooms.entrevoisins.ui.neighbour_list.ListNeighbourActivity;
 import com.openclassrooms.utils.DeleteViewAction;
 
 
-
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 
 
 import static android.support.test.espresso.Espresso.onView;
@@ -30,15 +31,15 @@ import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.hasMinimumChildCount;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.openclassrooms.utils.RecyclerViewItemCountAssertion.withItemCount;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.core.AllOf.allOf;
 
 /**
- * Test class for list of neighbours
+ * Instrumented test
  */
+
 @RunWith(AndroidJUnit4.class)
 public class NeighboursListTest {
 
@@ -105,17 +106,39 @@ public class NeighboursListTest {
 
 // click on second displayed neighbour on the list
         onView(allOf(withId(R.id.list_neighbours), isDisplayed()))
-                .perform(actionOnItemAtPosition(1, click()));
+                .perform(actionOnItemAtPosition(0, click()));
 // check if detail layout is shown
         onView(withId(R.id.detailGlobalLayout))
                 .check(matches(isDisplayed()));
 
-        onView(withId(R.id.Neighbour_name_txt)).check(matches((withText("Jack"))));
+        onView(withId(R.id.Neighbour_name_txt)).check(matches((withText("Caroline"))));
     }
 
 
     // 5.Favorites tab only shows favorite neighbors
-    @Test
+
+    //indexing of views of the viewpager which contains the list of favorites and that of favorites
+    public static Matcher<View> withIndex(final Matcher<View> matcher, final int index) {
+        return new TypeSafeMatcher<View>() {
+
+            int currentIndex = 0;
+
+            @Override
+            public void describeTo(org.hamcrest.Description description) {
+                description.appendText("with index: ");
+                description.appendValue(index);
+                matcher.describeTo(description);
+
+            }
+
+            @Override
+            public boolean matchesSafely(View view) {
+                return matcher.matches(view) && currentIndex ++== index;
+            }
+        };
+    }
+
+        @Test
     public void favorites_tab_only_shows_favorite_neighbors() {
 
 
@@ -134,10 +157,11 @@ public class NeighboursListTest {
         onView(allOf(withId(R.id.list_neighbours), isDisplayed()));
         onView(withId(R.id.container)).perform(scrollRight());
 
-        onView(withId(R.id.list_neighbours)),
-                withParent(withId(R.id.container))
-                        .check(withItemCount(1));
+        //verification of the number of favorites passing by indexing of views
+        onView(withIndex(withId(R.id.list_neighbours), 1))
+                .check(withItemCount(1));
 
     }
+
 
   }

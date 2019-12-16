@@ -63,6 +63,8 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
                 Intent toDetail = new Intent(holder.mNeighbourName.getContext(), NeighbourDetailsActivity.class);
                 toDetail.putExtra("neighbour", (Parcelable) neighbour);
                 v.getContext().startActivity(toDetail);
+
+
             }
         });
 

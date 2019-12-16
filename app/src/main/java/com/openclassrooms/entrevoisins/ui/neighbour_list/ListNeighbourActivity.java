@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 
 import com.openclassrooms.entrevoisins.R;
 
+import com.openclassrooms.entrevoisins.service.NeighbourApiService;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -23,6 +25,8 @@ public class ListNeighbourActivity extends AppCompatActivity {
     ViewPager mViewPager;
 
     ListNeighbourPagerAdapter mPagerAdapter;
+    private NeighbourApiService mApiService;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,4 +40,5 @@ public class ListNeighbourActivity extends AppCompatActivity {
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
     }
+
 }
