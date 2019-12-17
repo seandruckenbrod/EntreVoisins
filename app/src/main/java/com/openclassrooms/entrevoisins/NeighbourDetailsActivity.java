@@ -84,4 +84,5 @@ public class NeighbourDetailsActivity extends AppCompatActivity {
             favoriteStar();
         });
     }
+
 }

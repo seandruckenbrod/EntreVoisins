@@ -22,12 +22,6 @@ public abstract class DummyNeighbourGenerator {
             new Neighbour(11, "Patrick", "http://i.pravatar.cc/150?u=a042581f4e29026702d", false),
             new Neighbour(12, "Ludovic", "http://i.pravatar.cc/150?u=a042581f3e39026702d", false)
     );
-
-    static List<Neighbour> generateNeighbours() {
-        return new ArrayList<>(DUMMY_NEIGHBOURS);
-
-    }
-
     public static List<Neighbour> DUMMY_NEIGHBOURS_ADD = Arrays.asList(
             new Neighbour(13, "Farah", "https://i.pravatar.cc/150?u=a042581f4e290269804c", false),
             new Neighbour(14, "Fabien", "https://i.pravatar.cc/150?u=a042581f4e297899804dd", false),
@@ -37,5 +31,10 @@ public abstract class DummyNeighbourGenerator {
 
 
     );
+
+    static List<Neighbour> generateNeighbours() {
+        return new ArrayList<>(DUMMY_NEIGHBOURS);
+
+    }
 
 }

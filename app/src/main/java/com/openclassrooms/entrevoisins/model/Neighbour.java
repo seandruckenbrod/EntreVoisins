@@ -3,9 +3,6 @@ package com.openclassrooms.entrevoisins.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.openclassrooms.entrevoisins.service.DummyNeighbourGenerator;
-
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 
@@ -16,21 +13,27 @@ import static com.openclassrooms.entrevoisins.service.DummyNeighbourGenerator.DU
  */
 public class Neighbour implements Parcelable {
 
+    public static final Parcelable.Creator<Neighbour> CREATOR = new Parcelable.Creator<Neighbour>() {
+        public Neighbour createFromParcel(Parcel in) {
+            return new Neighbour(in);
+        }
+
+        public Neighbour[] newArray(int size) {
+            return new Neighbour[size];
+        }
+    };
     /**
      * Identifier
      */
     private Integer id;
-
     /**
      * Full name
      */
     private String name;
-
     /**
      * Avatar
      */
     private String avatarUrl;
-
     /**
      * Favorite or not
      */
@@ -44,6 +47,17 @@ public class Neighbour implements Parcelable {
         this.isFavorite = isFavorite;
     }
 
+    private Neighbour(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        isFavorite = in.readByte() != 0;
+        avatarUrl = in.readString();
+
+    }
+
+    public static Neighbour random() {
+        return DUMMY_NEIGHBOURS_ADD.get((new Random().nextInt(DUMMY_NEIGHBOURS_ADD.size())));
+    }
 
     public Integer getId() {
         return id;
@@ -57,11 +71,9 @@ public class Neighbour implements Parcelable {
         return name;
     }
 
-
     public String getAvatarUrl() {
         return avatarUrl;
     }
-
 
     public boolean isFavorite() {
         return isFavorite;
@@ -70,7 +82,6 @@ public class Neighbour implements Parcelable {
     public void setFavorite(boolean favorite) {
         this.isFavorite = favorite;
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -83,25 +94,6 @@ public class Neighbour implements Parcelable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
-    }
-
-
-    public static final Parcelable.Creator<Neighbour> CREATOR = new Parcelable.Creator<Neighbour>() {
-        public Neighbour createFromParcel(Parcel in) {
-            return new Neighbour(in);
-        }
-
-        public Neighbour[] newArray(int size) {
-            return new Neighbour[size];
-        }
-    };
-
-    private Neighbour(Parcel in) {
-        id = in.readInt();
-        name = in.readString();
-        isFavorite = in.readByte() != 0;
-        avatarUrl = in.readString();
-
     }
 
     @Override

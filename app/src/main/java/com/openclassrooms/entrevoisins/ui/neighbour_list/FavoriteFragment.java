@@ -66,7 +66,6 @@ public class FavoriteFragment extends Fragment {
             if (n.isFavorite())
                 mFavorites.add(n);
         }
-
         mRecyclerView.setAdapter(new MyNeighbourRecyclerViewAdapter(mFavorites));
     }
 

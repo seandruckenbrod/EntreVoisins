@@ -10,13 +10,13 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        app:contentInsetStart="0dp"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:layout_marginStart="0dp"
         android:layout_marginEnd="0dp"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
+        app:contentInsetStart="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
